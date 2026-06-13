@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Platform Frontend</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="loginPage" class="auth-container view-section">
+        <div class="auth-card">
+            <h2>Login</h2>
+            <p class="subtitle">Welcome back! Please login to your account</p>
+            <form onsubmit="handleRoute(event, 'userDashboard')">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="loginPass" placeholder="Enter your password" required>
+                        <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('loginPass')"></i>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <label><input type="checkbox"> Remember me</label>
+                    <a href="#" onclick="showView('forgotPassword')">Forgot Password?</a>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+            <div class="auth-footer">
+                <span>New User?</span>
+                <button class="btn btn-secondary" onclick="showView('registrationPage')">Register</button>
+            </div>
+            <button class="btn btn-link admin-shortcut" onclick="showView('adminDashboard')">Go to Admin View Demo</button>
+        </div>
+    </div>
+
+    <div id="registrationPage" class="auth-container view-section hidden">
+        <div class="auth-card">
+            <div class="brand"><i class="fa-solid fa-rotate"></i> Company</div>
+            <h2>Create Account</h2>
+            <form onsubmit="handleRoute(event, 'loginPage')">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="Enter password" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+            <div class="auth-footer">
+                <a href="#" onclick="showView('loginPage')">Back to Login</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="forgotPassword" class="auth-container view-section hidden">
+        <div class="auth-card text-center">
+            <div class="lock-icon-wrapper">
+                <i class="fa-solid fa-lock-open custom-lock"></i>
+            </div>
+            <h2>Forgot Password</h2>
+            <form onsubmit="handleRoute(event, 'loginPage')">
+                <div class="form-group text-left">
+                    <label>Email</label>
+                    <input type="email" placeholder="Enter your email" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Reset Link</button>
+            </form>
+            <div class="auth-footer">
+                <a href="#" onclick="showView('loginPage')">Back to Login</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="appLayout" class="app-layout view-section hidden">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <i class="fa-solid fa-rotate"></i> Company
+            </div>
+            <nav class="sidebar-menu">
+                <div id="userMenu">
+                    <a href="#" class="active" onclick="switchDashboardTab('user-home')"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+                    <a href="#" onclick="switchDashboardTab('user-products')"><i class="fa-solid fa-box"></i> Products</a>
+                    <a href="#" onclick="switchDashboardTab('user-profile')"><i class="fa-solid fa-user"></i> Profile</a>
+                </div>
+                <div id="adminMenu" class="hidden">
+                    <a href="#" class="active" onclick="switchDashboardTab('admin-home')"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+                    <a href="#" onclick="switchDashboardTab('product-management')"><i class="fa-solid fa-box"></i> Products</a>
+                    <a href="#" onclick="switchDashboardTab('activity-logs')"><i class="fa-solid fa-list-check"></i> Activity Logs</a>
+                    <a href="#" onclick="switchDashboardTab('settings')"><i class="fa-solid fa-gear"></i> Settings</a>
+                </div>
+                <a href="#" class="logout-link" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+            </nav>
+        </aside>
+
+        <div class="main-wrapper">
+            <header class="top-navbar">
+                <div class="view-title" id="currentViewTitle">Dashboard</div>
+                <div class="header-right">
+                    <div class="notification-bell">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="badge">1</span>
+                    </div>
+                    <div class="user-avatar-wrapper">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Profile" class="avatar">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <main class="content-body">
+                <div id="user-home" class="tab-content">
+                    <h3 class="section-title">Project Tools</h3>
+                    <div class="tools-grid">
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <i class="fa-brands fa-whatsapp whatsapp-icon"></i>
+                                <h4>WhatsApp Automation</h4>
+                            </div>
+                            <p>WhatsApp automation and response automation features.</p>
+                            <button class="btn btn-tool" onclick="launchTool('WhatsApp Automation')">Open Tool</button>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <i class="fa-regular fa-envelope mail-icon"></i>
+                                <h4>Mail Automation</h4>
+                            </div>
+                            <p>Partner tools and services automation and mail notifications.</p>
+                            <button class="btn btn-tool" onclick="launchTool('Mail Automation')">Open Tool</button>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <i class="fa-solid fa-handshake partnership-icon"></i>
+                                <h4>Partnership Tool</h4>
+                            </div>
+                            <p>Partnership tool structures market and partnership cost costings.</p>
+                            <button class="btn btn-tool" onclick="launchTool('Partnership Tool')">Open Tool</button>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <i class="fa-solid fa-file-arrow-up conversion-icon"></i>
+                                <h4>File Conversion Tool</h4>
+                            </div>
+                            <p>Conversion tool to convert files automatically and easily.</p>
+                            <button class="btn btn-tool" onclick="launchTool('File Conversion Tool')">Open Tool</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="user-products" class="tab-content hidden">
+                    <div class="table-header-action">
+                        <div>
+                            <h3>My Authorized Products</h3>
+                            <p class="text-muted" style="font-size: 13px; margin-top: 4px;">Explore, manage, and scale your assigned tools ecosystem</p>
+                        </div>
+                        <div class="search-input-wrapper" style="max-width: 300px;">
+                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                            <input type="text" id="userProductSearch" placeholder="Search my tools..." onkeyup="filterUserProducts()">
+                        </div>
+                    </div>
+
+                    <div class="tools-grid" id="userProductsGrid">
+                        <div class="tool-card user-prod-item">
+                            <div class="tool-status-ribbon status-active">Active Access</div>
+                            <div class="tool-header">
+                                <i class="fa-brands fa-whatsapp whatsapp-icon"></i>
+                                <h4 class="prod-title">WhatsApp Automation</h4>
+                            </div>
+                            <p>Premium license access. Run active message routines and context broadcasts effortlessly.</p>
+                            <div class="user-card-footer">
+                                <span class="text-muted"><i class="fa-regular fa-clock"></i> Expires: Dec 2026</span>
+                                <button class="btn btn-tool" onclick="launchTool('WhatsApp Automation')">Launch <i class="fa-solid fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                        <div class="tool-card user-prod-item">
+                            <div class="tool-status-ribbon status-active">Active Access</div>
+                            <div class="tool-header">
+                                <i class="fa-regular fa-envelope mail-icon"></i>
+                                <h4 class="prod-title">Mail Automation</h4>
+                            </div>
+                            <p>Transactional email pipelines configuration interface setup parameters.</p>
+                            <div class="user-card-footer">
+                                <span class="text-muted"><i class="fa-regular fa-clock"></i> Expires: Jan 2027</span>
+                                <button class="btn btn-tool" onclick="launchTool('Mail Automation')">Launch <i class="fa-solid fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                        <div class="tool-card user-prod-item">
+                            <div class="tool-status-ribbon status-inactive">Paused</div>
+                            <div class="tool-header">
+                                <i class="fa-solid fa-handshake partnership-icon"></i>
+                                <h4 class="prod-title">Partnership Tool</h4>
+                            </div>
+                            <p>Account mapping data matrix suite configuration options. License processing.</p>
+                            <div class="user-card-footer">
+                                <span class="text-danger"><i class="fa-solid fa-triangle-exclamation"></i> On Hold</span>
+                                <button class="btn btn-tool" disabled style="opacity:0.5; cursor:not-allowed;">Locked</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="user-profile" class="tab-content hidden">
+                    <div class="settings-split-container">
+                        <div class="settings-profile-sidebar">
+                            <div class="profile-card-summary">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80" alt="Avatar Large" class="profile-large-avatar">
+                                <h4>Anvar Sh.</h4>
+                                <span class="badge-status badge-info">Standard Client</span>
+                                <p class="text-muted" style="font-size:12px; margin-top:8px;">Member since May 2024</p>
+                            </div>
+                        </div>
+                        <div class="form-container-card" style="max-width: 100%;">
+                            <h3>Profile Parameters Configuration</h3>
+                            <form onsubmit="saveProfileSettings(event)">
+                                <div class="form-row-grid">
+                                    <div class="form-group">
+                                        <label>First Name</label>
+                                        <input type="text" value="Anvar" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input type="text" value="Sh." required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email Contact Coordinate</label>
+                                    <input type="email" value="anvar@company.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Current Gateway Password</label>
+                                    <input type="password" placeholder="••••••••">
+                                </div>
+                                <div class="form-group">
+                                    <label>New Account Security Key (Leave blank to keep old)</label>
+                                    <input type="password" placeholder="Enter new secret string combo">
+                                </div>
+                                <button type="submit" class="btn btn-primary" style="width: auto; padding: 10px 24px;">Save Changes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="admin-home" class="tab-content hidden">
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <span>Total Products</span>
+                            <h2>244</h2>
+                        </div>
+                        <div class="metric-card">
+                            <span>Active Products</span>
+                            <h2 class="text-success">20</h2>
+                        </div>
+                        <div class="metric-card">
+                            <span>Inactive Products</span>
+                            <h2 class="text-danger">0</h2>
+                        </div>
+                        <div class="metric-card">
+                            <span>Total Launches</span>
+                            <h2>15</h2>
+                        </div>
+                    </div>
+
+                    <h3 class="section-title">Admin Action</h3>
+                    <div class="admin-actions-grid">
+                        <div class="action-shortcut-card" onclick="switchDashboardTab('create-product')">
+                            <h5>Create Product</h5>
+                            <p>Create product metrics</p>
+                        </div>
+                        <div class="action-shortcut-card" onclick="switchDashboardTab('product-management')">
+                            <h5>Manage Products</h5>
+                            <p>Manage criteria manage product</p>
+                        </div>
+                        <div class="action-shortcut-card" onclick="switchDashboardTab('activity-logs')">
+                            <h5>Activity Logs</h5>
+                            <p>Manage product activity logs</p>
+                        </div>
+                        <div class="action-shortcut-card" onclick="switchDashboardTab('settings')">
+                            <h5>Admin Status</h5>
+                            <p>Launch optimization your products</p>
+                        </div>
+                    </div>
+
+                    <h3 class="section-title">Recent Activities Table</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Activity</th>
+                                    <th>User</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Create Product Automation</td>
+                                    <td>Admin.anvar</td>
+                                    <td>Apr 5, 2023</td>
+                                </tr>
+                                <tr>
+                                    <td>Activity Logs</td>
+                                    <td>Admin.amin</td>
+                                    <td>Apr 5, 2023</td>
+                                </tr>
+                                <tr>
+                                    <td>Activity Logs</td>
+                                    <td>Admin.ansar</td>
+                                    <td>Apr 5, 2023</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="product-management" class="tab-content hidden">
+                    <div class="table-header-action">
+                        <h3>Product Management</h3>
+                        <button class="btn btn-primary btn-sm" onclick="switchDashboardTab('create-product')"><i class="fa-solid fa-plus"></i> Create Product</button>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>URL</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>WhatsApp Automation</td>
+                                    <td class="text-muted">https://tool.company.com/whatsapp</td>
+                                    <td><span class="status-badge status-active">Active</span></td>
+                                    <td>
+                                        <button class="btn-icon"><i class="fa-solid fa-pencil"></i></button>
+                                        <button class="btn-icon text-danger"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Mail Automation</td>
+                                    <td class="text-muted">https://tool.company.com/mail</td>
+                                    <td><span class="status-badge status-active">Active</span></td>
+                                    <td>
+                                        <button class="btn-icon"><i class="fa-solid fa-pencil"></i></button>
+                                        <button class="btn-icon text-danger"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Partnership Tool</td>
+                                    <td class="text-muted">https://tool.company.com/partnership</td>
+                                    <td><span class="status-badge status-active">Active</span></td>
+                                    <td>
+                                        <button class="btn-icon"><i class="fa-solid fa-pencil"></i></button>
+                                        <button class="btn-icon text-danger"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>File Conversion</td>
+                                    <td class="text-muted">https://tool.company.com/conversion</td>
+                                    <td><span class="status-badge status-inactive">Inactive</span></td>
+                                    <td>
+                                        <button class="btn-icon"><i class="fa-solid fa-pencil"></i></button>
+                                        <button class="btn-icon text-danger"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="activity-logs" class="tab-content hidden">
+                    <div class="table-header-action">
+                        <div>
+                            <h3>System Activity Audit Logs</h3>
+                            <p class="text-muted" style="font-size: 13px; margin-top: 4px;">Real-time security monitoring and event tracking</p>
+                        </div>
+                        <button class="btn btn-secondary btn-sm" onclick="refreshLogs()"><i class="fa-solid fa-rotate-right"></i> Refresh Logs</button>
+                    </div>
+
+                    <div class="logs-filter-bar">
+                        <div class="search-input-wrapper">
+                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                            <input type="text" id="logSearch" placeholder="Filter by activity, user or target..." onkeyup="filterLogs()">
+                        </div>
+                        <div class="filter-dropdowns">
+                            <select id="severityFilter" onchange="filterLogs()">
+                                <option value="all">All Severities</option>
+                                <option value="info">Info</option>
+                                <option value="warning">Warning</option>
+                                <option value="danger">Critical</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table id="activityLogsTable">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Activity / Action Event</th>
+                                    <th>Performed By</th>
+                                    <th>Target Resource</th>
+                                    <th>Severity</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-severity="info">
+                                    <td class="text-muted">2026-06-13 10:42:15</td>
+                                    <td><strong>Create Product Automation</strong></td>
+                                    <td>Admin.anvar</td>
+                                    <td><span class="resource-tag">WhatsApp Automation</span></td>
+                                    <td><span class="badge-status badge-info">Info</span></td>
+                                    <td><span class="text-success"><i class="fa-solid fa-circle-check"></i> Success</span></td>
+                                </tr>
+                                <tr data-severity="warning">
+                                    <td class="text-muted">2026-06-13 09:15:32</td>
+                                    <td><strong>API Token Generation Request</strong></td>
+                                    <td>Admin.amin</td>
+                                    <td><span class="resource-tag">System Auth Gateway</span></td>
+                                    <td><span class="badge-status badge-warning">Warning</span></td>
+                                    <td><span class="text-success"><i class="fa-solid fa-circle-check"></i> Success</span></td>
+                                </tr>
+                                <tr data-severity="info">
+                                    <td class="text-muted">2026-06-12 18:22:04</td>
+                                    <td><strong>Modified Product Meta Configuration</strong></td>
+                                    <td>Admin.ansar</td>
+                                    <td><span class="resource-tag">File Conversion Tool</span></td>
+                                    <td><span class="badge-status badge-info">Info</span></td>
+                                    <td><span class="text-success"><i class="fa-solid fa-circle-check"></i> Success</span></td>
+                                </tr>
+                                <tr data-severity="danger">
+                                    <td class="text-muted">2026-06-12 14:05:11</td>
+                                    <td><strong>Unauthorized Admin Access Attempt</strong></td>
+                                    <td>Anonymous (192.168.1.45)</td>
+                                    <td><span class="resource-tag">/admin/settings</span></td>
+                                    <td><span class="badge-status badge-danger">Critical</span></td>
+                                    <td><span class="text-danger"><i class="fa-solid fa-circle-xmark"></i> Blocked</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-pagination">
+                        <span class="text-muted" style="font-size: 13px;">Showing 1 to 4 of 4 entries</span>
+                        <div class="pagination-buttons">
+                            <button class="btn-pagination disabled"><i class="fa-solid fa-chevron-left"></i></button>
+                            <button class="btn-pagination active">1</button>
+                            <button class="btn-pagination disabled"><i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="settings" class="tab-content hidden">
+                    <div class="form-container-card" style="max-width: 100%;">
+                        <h3>Global Platform Configuration Parameters</h3>
+                        <p class="text-muted" style="font-size: 13px; margin-bottom: 24px;">Manage administrative settings, core security policies, and automation gateways.</p>
+                        
+                        <form onsubmit="saveGlobalSettings(event)">
+                            <h5 style="margin-bottom:12px; font-size:14px; border-bottom:1px solid var(--border-color); padding-bottom:6px;">General Workspace Settings</h5>
+                            <div class="form-row-grid">
+                                <div class="form-group">
+                                    <label>Platform Context Title Name</label>
+                                    <input type="text" value="Enterprise Engine Hub">
+                                </div>
+                                <div class="form-group">
+                                    <label>Support Desk Routing Target</label>
+                                    <input type="email" value="ops@company.com">
+                                </div>
+                            </div>
+
+                            <h5 style="margin:24px 0 12px; font-size:14px; border-bottom:1px solid var(--border-color); padding-bottom:6px;">Security Rules & Automation Control</h5>
+                            <div class="form-group">
+                                <label>Session Expiration Interval Threshold</label>
+                                <select style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:6px;">
+                                    <option value="60">1 Hour (Recommended)</option>
+                                    <option value="120">2 Hours</option>
+                                    <option value="1440">24 Hours</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+                                    <input type="checkbox" checked style="width:auto;"> Enable Automated Auditing System Activity Verification Hooks
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+                                    <input type="checkbox" style="width:auto;"> Force Multi-Factor Auth (MFA) enforcement over administrative layers
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="width:auto; padding: 12px 30px; margin-top:10px;">Apply Master Configuration</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="create-product" class="tab-content hidden">
+                    <div class="form-container-card">
+                        <h3>Create New Product</h3>
+                        <form onsubmit="event.preventDefault(); switchDashboardTab('product-management');">
+                            <div class="form-group">
+                                <label>Product Name</label>
+                                <input type="text" placeholder="Enter product name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Product Image</label>
+                                <div class="upload-zone">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                                    <p>Upload Image</p>
+                                    <span>Max size 2MB</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea rows="4" placeholder="Enter product description"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Tool URL</label>
+                                <input type="url" placeholder="Feature URL">
+                            </div>
+                            <div class="form-buttons">
+                                <button type="submit" class="btn btn-primary">Create Product</button>
+                                <button type="button" class="btn btn-secondary" onclick="switchDashboardTab('product-management')">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="product-details" class="tab-content hidden">
+                    <div class="breadcrumb">Dashboard &gt; Products &gt; <span id="detailProductBreadcrumb">WhatsApp Automation</span></div>
+                    <div class="details-card">
+                        <div class="details-main">
+                            <i class="fa-brands fa-whatsapp details-large-icon"></i>
+                            <div class="details-info">
+                                <h2 id="detailProductName">WhatsApp Automation</h2>
+                                <p>Automate your WhatsApp messaging campaigns and customize engagement effortlessly.</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="details-metadata">
+                            <div class="meta-item">
+                                <strong>Tool URL</strong>
+                                <span class="link-span">https://tool.company.com/whatsapp <i class="fa-regular fa-copy"></i></span>
+                            </div>
+                            <div class="meta-item">
+                                <strong>Status</strong>
+                                <span class="status-badge status-active">Active</span>
+                            </div>
+                            <div class="meta-item">
+                                <strong>Created On</strong>
+                                <span>May 30, 2024</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary mt-4" onclick="switchDashboardTab('tool-launch')">Launch Tool <i class="fa-solid fa-arrow-up-right-from-square"></i></button>
+                    </div>
+                </div>
+
+                <div id="tool-launch" class="tab-content hidden">
+                    <div class="launch-success-card">
+                        <div class="rocket-wrapper">
+                            <i class="fa-solid fa-rocket rocket-icon"></i>
+                            <span class="success-check"><i class="fa-solid fa-circle-check"></i></span>
+                        </div>
+                        <h2>WhatsApp Automation</h2>
+                        <p>Your tool is ready to launch!</p>
+                        <a href="https://tool.company.com/whatsapp" target="_blank" class="launch-url">https://tool.company.com/whatsapp</a>
+                        
+                        <div class="launch-actions">
+                            <button class="btn btn-primary" onclick="window.open('https://tool.company.com/whatsapp', '_blank')">Open Tool <i class="fa-solid fa-arrow-up-right-from-square"></i></button>
+                            <button class="btn btn-link" onclick="switchDashboardTab('user-home')"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</button>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
